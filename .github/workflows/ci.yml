@@ -47,6 +47,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
+      - name: Build backend Docker image
+        run: docker build -t jerney-backend:1.0 ./backend
+
+      - name: Build frontend Docker image
+        run: docker build -t jerney-frontend:1.0 ./frontend
+
       - name: Build frontend
         working-directory: frontend
         run: npm run build
