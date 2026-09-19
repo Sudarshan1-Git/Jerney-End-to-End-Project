@@ -1,4 +1,4 @@
-name: My Pipeline 
+name: My Pipeline
 
 on:
   push:
@@ -50,9 +50,6 @@ jobs:
       - name: Build backend Docker image
         run: docker build -t jerney-backend:1.0 ./backend
 
-      - name: Build frontend Docker image
-        run: docker build -t jerney-frontend:1.0 ./frontend
-
       - name: Scan backend image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
@@ -61,6 +58,9 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL'
+
+      - name: Build frontend Docker image
+        run: docker build -t jerney-frontend:1.0 ./frontend
 
       - name: Scan frontend image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -77,7 +77,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            - name: Push backend image
+      - name: Push backend image
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
@@ -89,7 +89,7 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           docker tag jerney-frontend:1.0 $DOCKERHUB_USERNAME/jerney-frontend:latest
-          docker push $DOCKERHUB_USERNAME/jerney-frontend:latest   
+          docker push $DOCKERHUB_USERNAME/jerney-frontend:latest
 
       - name: Build frontend
         working-directory: frontend
