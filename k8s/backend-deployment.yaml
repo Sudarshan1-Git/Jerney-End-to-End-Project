@@ -27,19 +27,37 @@ spec:
 
           env:
             - name: DB_USER
-              value: jerney
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: DB_USER
 
             - name: DB_PASSWORD
-              value: jerney123
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: DB_PASSWORD
 
             - name: DB_HOST
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DB_HOST
 
             - name: DB_PORT
-              value: "5432"
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DB_PORT
 
             - name: DB_NAME
-              value: jerney
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: DB_NAME
 
             - name: PORT
-              value: "5000"
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: PORT
